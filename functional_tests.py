@@ -19,12 +19,12 @@ class NewVisitorTest(unittest.TestCase):
 
         self.assertIn('To-Do', self.browser.title)
         header_text = self.browser.find_element(By.TAG_NAME, 'h1').text
-        self.assertIn('To_Do',header_text)
+        self.assertIn('To-Do', header_text)
 
         inputbox = self.browser.find_element(By.ID, 'id_new_item')
         self.assertEquals(
             inputbox.get_attribute('placeholder'),
-            'Enter a to_do item'
+            'Enter a to-do item'
         )
 
         inputbox.send_keys('Buy flowers')

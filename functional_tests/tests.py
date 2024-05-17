@@ -3,9 +3,12 @@ from selenium.webdriver.common.keys import Keys
 import time
 import unittest
 from selenium.webdriver.common.by import By
+from django.test import LiveServerTestCase
 
 
-class NewVisitorTest(unittest.TestCase):
+# 要运行功能测试时
+# 将使用python manage.py test functional_tests
+class NewVisitorTest(LiveServerTestCase):
 
     def setUp(self):
         self.browser = webdriver.Chrome()
@@ -20,7 +23,7 @@ class NewVisitorTest(unittest.TestCase):
 
     def test_can_start_a_list_and_retrieve_it(self):
 
-        self.browser.get('http://localhost:8000')
+        self.browser.get(self.live_server_url)
 
         self.assertIn('To-Do', self.browser.title)
         header_text = self.browser.find_element(By.TAG_NAME, 'h1').text
@@ -48,5 +51,3 @@ class NewVisitorTest(unittest.TestCase):
         self.fail("Finish the test!")
 
 
-if __name__ == '__main__':
-    unittest.main()

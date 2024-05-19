@@ -3,6 +3,11 @@
 import os
 import sys
 
+# 运行功能测试:
+# python manage.py test functional_tests
+# 运行单元测试；
+# python manage.py test lists
+
 
 def main():
     """Run administrative tasks."""

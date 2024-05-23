@@ -3,7 +3,7 @@ from selenium.webdriver.common.keys import Keys
 import time
 import unittest
 from selenium.webdriver.common.by import By
-from django.test import LiveServerTestCase
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium.common.exceptions import WebDriverException
 
 
@@ -12,7 +12,7 @@ MAX_WAIT = 10
 
 # 要运行功能测试时
 # 将使用python manage.py test functional_tests
-class NewVisitorTest(LiveServerTestCase):
+class NewVisitorTest(StaticLiveServerTestCase):
 
     def setUp(self):
         self.browser = webdriver.Chrome()
@@ -24,12 +24,12 @@ class NewVisitorTest(LiveServerTestCase):
         start_time = time.time()
         while True:
             try:
-                table = self.browser.find_element(By.ID,'id_list_table')
-                rows = table.find_elements(By.TAG_NAME,'tr')
+                table = self.browser.find_element(By.ID, 'id_list_table')
+                rows = table.find_elements(By.TAG_NAME, 'tr')
                 self.assertIn(row_text, [row.text for row in rows])
                 return
             except (AssertionError, WebDriverException) as e:
-                if time.time() - start_time >  MAX_WAIT:
+                if time.time() - start_time > MAX_WAIT:
                     raise e
                 time.sleep(0.5)
 
@@ -49,14 +49,14 @@ class NewVisitorTest(LiveServerTestCase):
 
         inputbox.send_keys('Buy flowers')
         inputbox.send_keys(Keys.ENTER)
-        self.wait_for_row_in_list_table('1:Buy flowers')
+        self.wait_for_row_in_list_table('1: Buy flowers')
 
         inputbox = self.browser.find_element(By.ID, 'id_new_item')
         inputbox.send_keys('Give a gift to Lisi')
         inputbox.send_keys(Keys.ENTER)
 
-        self.wait_for_row_in_list_table('1:Buy flowers')
-        self.wait_for_row_in_list_table('2:Give a gift to Lisi')
+        self.wait_for_row_in_list_table('1: Buy flowers')
+        self.wait_for_row_in_list_table('2: Give a gift to Lisi')
 
     def test_multiple_users_can_start_lists_at_different_urls(self):
         self.browser.get(self.live_server_url)
@@ -102,7 +102,7 @@ class NewVisitorTest(LiveServerTestCase):
 
         inputbox.send_keys('testing')
         inputbox.send_keys(Keys.ENTER)
-        self.wait_for_row_in_list_table('1:testing')
+        self.wait_for_row_in_list_table('1: testing')
         inputbox = self.browser.find_element(By.ID, 'id_new_item')
         self.assertAlmostEquals(
             inputbox.location['x'] + inputbox.size['width'] / 2,

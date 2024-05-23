@@ -9,6 +9,7 @@ from selenium.common.exceptions import WebDriverException
 
 MAX_WAIT = 10
 
+
 # 要运行功能测试时
 # 将使用python manage.py test functional_tests
 class NewVisitorTest(LiveServerTestCase):
@@ -25,7 +26,7 @@ class NewVisitorTest(LiveServerTestCase):
             try:
                 table = self.browser.find_element(By.ID,'id_list_table')
                 rows = table.find_elements(By.TAG_NAME,'tr')
-                self.assertIn(row_text, [row_text for row in rows])
+                self.assertIn(row_text, [row.text for row in rows])
                 return
             except (AssertionError, WebDriverException) as e:
                 if time.time() - start_time >  MAX_WAIT:
